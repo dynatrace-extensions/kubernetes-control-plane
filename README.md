@@ -25,11 +25,11 @@ To ingest metrics exposed by the OpenShift control plane, the related services n
 
 #### OpenShift 4
 ```
-kubectl apply -f 
+kubectl apply -f https://raw.githubusercontent.com/dynatrace-extensions/kubernetes-control-plane/main/scripts/control-plane-monitoring-annotations-ocp4.yaml
 ```
 #### OpenShift 3
 ```
-kubectl apply -f 
+kubectl apply -f https://raw.githubusercontent.com/dynatrace-extensions/kubernetes-control-plane/main/scripts/control-plane-monitoring-annotations-ocp3.yaml
 ```
 
 #### Verification and troubleshooting
@@ -74,11 +74,11 @@ As metric ingest is subject to [DDU consumption](https://www.dynatrace.com/suppo
 
 #### OpenShift 4
 ```
-kubectl delete -f 
+kubectl delete -f https://raw.githubusercontent.com/dynatrace-extensions/kubernetes-control-plane/main/scripts/control-plane-monitoring-annotations-ocp4.yaml
 ```
 #### OpenShift 3
 ```
-kubectl delete -f 
+kubectl delete -f https://raw.githubusercontent.com/dynatrace-extensions/kubernetes-control-plane/main/scripts/control-plane-monitoring-annotations-ocp3.yaml
 ```
 ### 2. Deactivate the extension
 To remove the out-of-the-box dashboard and alerts, deactivate the extension via the **Dynatrace Hub**.
