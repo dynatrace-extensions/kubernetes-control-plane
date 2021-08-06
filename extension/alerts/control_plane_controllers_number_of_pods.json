@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      5
+    ],
+    "clusterVersion": "1.219.0.20210510-213107"
+  },
+  "id": "ff680ce9-0aec-47b3-a050-2f3ec25958c7",
+  "metricId": "kube_pod_status_ready",
+  "metricSelector": "\"kube_pod_status_ready\":filter(and(eq(namespace,kube-system),prefix(pod,master-controllers-),ne(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+  "name": "OpenShift control plane: controller pod not ready (OpenShift 3 specific)",
+  "description": "The {metricname} value of {severity} was {alert_condition} the baseline of {baseline}.",
+  "severity": "CUSTOM_ALERT",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "samples": 15,
+    "violatingSamples": 2,
+    "dealertingSamples": 15,
+    "alertCondition": "ABOVE",
+    "alertingOnMissingData": false,
+    "threshold": 0.99,
+    "unit": "UNSPECIFIED"
+  },
+  "alertCondition": "ABOVE",
+  "samples": 15,
+  "violatingSamples": 2,
+  "dealertingSamples": 15,
+  "threshold": 0.99,
+  "unit": "UNSPECIFIED",
+  "eventType": "CUSTOM_ALERT",
+  "primaryDimensionKey": "dt.entity.kubernetes_cluster"
+}

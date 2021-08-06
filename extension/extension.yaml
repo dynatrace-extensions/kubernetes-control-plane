@@ -1,0 +1,147 @@
+name: com.dynatrace.extension.<%=extensionName%>
+version: <%=version%>
+minDynatraceVersion: "1.219"
+author:
+  name: Dynatrace
+
+dashboards:
+  - path: "dashboards/dashboard.json"
+
+alerts:
+  - path: "alerts/readyz_cluster_readiness.json"
+  - path: "alerts/kubernetes_master_nodes.json"
+  - path: "alerts/control_plane_apiserver_number_of_pods.json"
+  - path: "alerts/control_plane_controller_manager_number_of_pods.json"
+  - path: "alerts/control_plane_dns_number_of_pods.json"
+  - path: "alerts/control_plane_etcd_number_of_pods.json"
+  - path: "alerts/control_plane_scheduler_number_of_pods.json"
+  - path: "alerts/control_plane_controllers_number_of_pods.json"
+
+metrics:
+  - key: func:kubernetes_control_plane.master_node.cpu.usage
+    query:
+      metricSelector: '
+      ("node_cpu_seconds_total".count
+        :filter(
+          and(
+            or(eq(mode,user),eq(mode,softirq),eq(mode,irq),eq(mode,system)),
+            in(dt.entity.kubernetes_node,entitySelector("type(kubernetes_node),
+            kuberneteslabels(node-role.kubernetes.io/master)")),eq("k8s.daemonset.name",node-exporter)
+          )
+        )
+        :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node", "cpu")
+        :sum
+        :rate(1m)
+      )/(0.6)'
+    metadata:
+      displayName: Master Node CPU Usage
+      unit: Percent
+      metricProperties:
+        minValue: 0
+        maxValue: 100
+        rootCauseRelevant: false
+        impactRelevant: false
+        valueType: unknown
+
+  - key: func:kubernetes_control_plane.node.mem.usage
+    query:
+      metricSelector: '
+      (
+        ((1)-
+        (
+          (node_memory_MemAvailable_bytes
+            :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node")
+            :avg:rate(1m)
+          ) /
+          (node_memory_MemTotal_bytes
+            :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node")
+            :avg:rate(1m)
+          )
+        ))
+      *(100))'
+    metadata:
+      displayName: Node Memory Usage
+      unit: Percent
+      metricProperties:
+        minValue: 0
+        maxValue: 100
+        rootCauseRelevant: false
+        impactRelevant: false
+        valueType: unknown
+
+  - key: func:kubernetes_control_plane.node.disk.usage
+    query:
+      metricSelector: '
+      ((
+        (1)-(
+          (node_filesystem_free_bytes
+          :filter(not(eq("device","tmpfs")))
+          :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node","device")
+          :avg:rate(1m)
+          ) /
+          (node_filesystem_size_bytes
+          :filter(not(eq("device","tmpfs")))
+          :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node","device")
+          :avg:rate(1m)
+          )
+        )
+      ) * (100))'
+    metadata:
+      displayName: Node Disk Usage
+      unit: Percent
+      metricProperties:
+        minValue: 0
+        maxValue: 100
+        rootCauseRelevant: false
+        impactRelevant: false
+        valueType: unknown
+
+  - key: func:kubernetes_control_plane.master_node.net.bytesRx
+    query:
+      metricSelector: '
+      (
+      ("node_network_receive_bytes_total".count
+          :filter(
+            in("dt.entity.kubernetes_node",
+              entitySelector("type(kubernetes_node),kubernetesLabels(node-role.kubernetes.io/master)")
+            )
+          )
+          :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node","device")
+          :avg
+          :rate(1m)
+        )*(0.133333333)
+      )'
+    metadata:
+      displayName: Master Node Received Bits/s
+      unit: BitPerSecond
+      metricProperties:
+        minValue: 0
+        maxValue: 100
+        rootCauseRelevant: false
+        impactRelevant: false
+        valueType: unknown
+
+  - key: func:kubernetes_control_plane.master_node.net.bytesTx
+    query:
+      metricSelector: '
+      (
+      ("node_network_transmit_bytes_total".count
+          :filter(
+            in("dt.entity.kubernetes_node",
+              entitySelector("type(kubernetes_node),kubernetesLabels(node-role.kubernetes.io/master)")
+            )
+          )
+          :splitBy("dt.entity.kubernetes_cluster", "dt.entity.kubernetes_node","device")
+          :avg
+          :rate(1m)
+        )*(0.133333333)
+      )'
+    metadata:
+      displayName: Master Node Transmitted Bits/s
+      unit: BitPerSecond
+      metricProperties:
+        minValue: 0
+        maxValue: 100
+        rootCauseRelevant: false
+        impactRelevant: false
+        valueType: unknown

@@ -1,0 +1,757 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      5
+    ],
+    "clusterVersion": "1.222.0.20210628-103206"
+  },
+  "id": "0a370e1c-5710-4afa-8350-dd897af5b8fc",
+  "dashboardMetadata": {
+    "name": "OpenShift control plane",
+    "shared": true,
+    "techType":"OpenShift",
+    "owner": "Dynatrace",
+    "tags": [
+      "OpenShift",
+      "ControlPlane",
+      "Kubernetes"
+    ],
+    "preset": true
+  },
+  "tiles": [
+    {
+      "name": "Cluster readiness status",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 0,
+        "width": 532,
+        "height": 38
+      },
+      "tileFilter": {}
+    },
+    {
+      "name": "Number of nodes",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 532,
+        "width": 494,
+        "height": 38
+      },
+      "tileFilter": {}
+    },
+    {
+      "name": "Cluster status",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 0,
+        "width": 532,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "builtin:cloud.kubernetes.cluster.readyz",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.kubernetes_cluster"
+          ],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.kubernetes_cluster",
+                "filterType": "ENTITY_ATTRIBUTE",
+                "filterOperator": "OR",
+                "entityAttribute": "kubernetesDistribution",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "OPENSHIFT",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "TABLE",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "seriesType": "LINE"
+            }
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Infrastructure nodes",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 1026,
+        "width": 494,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_node_labels\":filter(and(eq(\"label_node_role_kubernetes_io_infra\",true))):splitBy(\"dt.entity.kubernetes_cluster\"):avg:auto:sort(value(avg,descending))",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "etcd",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 0,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_pod_status_ready\":filter(and(or(and(eq(namespace,kube-system),prefix(pod,master-etcd-)),and(eq(namespace,openshift-etcd),prefix(pod,\"etcd-\"),not(prefix(pod,\"etcd-quorum\")))),eq(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Kubernetes API server",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 304,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_pod_status_ready\":filter(and(or(and(eq(namespace,kube-system),prefix(pod,master-api-)),and(eq(namespace,openshift-kube-apiserver),prefix(pod,\"kube-apiserver-\"))),eq(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Kubernetes scheduler",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 608,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_pod_status_ready\":filter(and(eq(namespace,openshift-kube-scheduler),prefix(pod,\"openshift-kube-scheduler-\"),eq(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Kubernetes controller manager",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 912,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_pod_status_ready\":filter(and(eq(namespace,openshift-kube-controller-manager),prefix(pod,\"kube-controller-manager-\"),eq(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Controller manager server",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 418,
+        "left": 1216,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_pod_status_ready\":filter(and(eq(namespace,kube-system),prefix(pod,master-controllers-),eq(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "CPU usage %",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 836,
+        "left": 0,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "func:kubernetes_control_plane.master_node.cpu.usage",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.kubernetes_cluster",
+            "dt.entity.kubernetes_node"
+          ],
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Memory usage %",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 836,
+        "left": 304,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "metric": "func:kubernetes_control_plane.node.mem.usage",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [
+            "dt.entity.kubernetes_cluster",
+            "dt.entity.kubernetes_node"
+          ],
+          "filterBy": {
+            "filterOperator": "AND",
+            "nestedFilters": [
+              {
+                "filter": "dt.entity.kubernetes_node",
+                "filterType": "ENTITY_ATTRIBUTE",
+                "filterOperator": "OR",
+                "entityAttribute": "kubernetesLabels",
+                "nestedFilters": [],
+                "criteria": [
+                  {
+                    "value": "node-role.kubernetes.io/master",
+                    "evaluator": "IN"
+                  }
+                ]
+              }
+            ],
+            "criteria": []
+          },
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Disk usage %",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 836,
+        "left": 608,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"func:kubernetes_control_plane\".node.disk.usage:splitBy(\"dt.entity.kubernetes_cluster\",\"dt.entity.kubernetes_node\",device):avg:auto:sort(value(avg,descending)):limit(20)",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "seriesType": "LINE"
+            }
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Traffic out",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 836,
+        "left": 912,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"func:kubernetes_control_plane\".\"master_node\".net.\"bytesTx\":splitBy(\"dt.entity.kubernetes_cluster\",\"dt.entity.kubernetes_node\"):max",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "seriesType": "LINE"
+            }
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Traffic in",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 836,
+        "left": 1216,
+        "width": 304,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"func:kubernetes_control_plane\".\"master_node\".net.\"bytesRx\":splitBy(\"dt.entity.kubernetes_cluster\",\"dt.entity.kubernetes_node\"):max",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "seriesType": "LINE"
+            }
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Master nodes resource usage",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 798,
+        "left": 0,
+        "width": 1520,
+        "height": 38
+      },
+      "tileFilter": {}
+    },
+    {
+      "name": "Number of ready pods per component",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 380,
+        "left": 0,
+        "width": 608,
+        "height": 38
+      },
+      "tileFilter": {}
+    },
+    {
+      "name": "Master nodes",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 38,
+        "left": 532,
+        "width": 494,
+        "height": 304
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "B",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_node_role\":filter(eq(role,master)):splitBy(\"dt.entity.kubernetes_cluster\"):count:rate:sort(value(avg,descending))",
+          "enabled": true
+        },
+        {
+          "id": "C",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "splitBy": [],
+          "metricSelector": "\"kube_node_labels\":filter(and(eq(label_node_role_kubernetes_io_master,true))):splitBy(\"dt.entity.kubernetes_cluster\"):avg:auto:sort(value(avg,descending))",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "GRAPH_CHART",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 380,
+        "left": 608,
+        "width": 608,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "#### [OpenShift 4 specific components](https://docs.openshift.com/container-platform/4.7/architecture/control-plane.html)"
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 380,
+        "left": 1216,
+        "width": 304,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "#### [OpenShift 3 specific component](https://docs.openshift.com/container-platform/3.11/architecture/infrastructure_components/kubernetes_infrastructure.html)"
+    },
+    {
+      "name": "Markdown",
+      "tileType": "MARKDOWN",
+      "configured": true,
+      "bounds": {
+        "top": 0,
+        "left": 1026,
+        "width": 494,
+        "height": 38
+      },
+      "tileFilter": {},
+      "markdown": "#### [OpenShift 3 specific node type](https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html#infrastructure-nodes)"
+    }
+  ]
+}

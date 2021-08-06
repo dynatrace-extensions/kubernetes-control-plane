@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      5
+    ],
+    "clusterVersion": "1.219.0.20210510-213107"
+  },
+  "id": "69389e2b-4402-4f45-a024-ace062dd4c8b",
+  "metricId": "kube_pod_status_ready",
+  "metricSelector": "\"kube_pod_status_ready\":filter(and(eq(namespace,openshift-kube-scheduler),prefix(pod,\"openshift-kube-scheduler-\"),ne(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+  "name": "OpenShift control plane: scheduler pod not ready (OpenShift 4 specific)",
+  "description": "The {metricname} value of {severity} was {alert_condition} the baseline of {baseline}.",
+  "severity": "CUSTOM_ALERT",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "samples": 15,
+    "violatingSamples": 2,
+    "dealertingSamples": 15,
+    "alertCondition": "ABOVE",
+    "alertingOnMissingData": false,
+    "threshold": 0.99,
+    "unit": "UNSPECIFIED"
+  },
+  "alertCondition": "ABOVE",
+  "samples": 15,
+  "violatingSamples": 2,
+  "dealertingSamples": 15,
+  "threshold": 0.99,
+  "unit": "UNSPECIFIED",
+  "eventType": "CUSTOM_ALERT",
+  "primaryDimensionKey": "dt.entity.kubernetes_cluster"
+}

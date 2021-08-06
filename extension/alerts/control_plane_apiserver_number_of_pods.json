@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      5
+    ],
+    "clusterVersion": "1.219.0.20210510-213107"
+  },
+  "id": "24473746-1844-4148-9e98-88847e967934",
+  "metricId": "kube_pod_status_ready",
+  "metricSelector": "\"kube_pod_status_ready\":filter(and(or(and(eq(namespace,kube-system),prefix(pod,master-api-)),and(eq(namespace,openshift-kube-apiserver),prefix(pod,\"kube-apiserver-\"))),ne(condition,true))):splitBy(dt.entity.kubernetes_cluster):sum:rate(1m)",
+  "name": "OpenShift control plane: API server pod not ready",
+  "description": "The {metricname} value of {severity} was {alert_condition} the baseline of {baseline}.",
+  "severity": "CUSTOM_ALERT",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "samples": 15,
+    "violatingSamples": 2,
+    "dealertingSamples": 15,
+    "alertCondition": "ABOVE",
+    "alertingOnMissingData": false,
+    "threshold": 0.99,
+    "unit": "UNSPECIFIED"
+  },
+  "alertCondition": "ABOVE",
+  "samples": 15,
+  "violatingSamples": 2,
+  "dealertingSamples": 15,
+  "threshold": 0.99,
+  "unit": "UNSPECIFIED",
+  "eventType": "CUSTOM_ALERT",
+  "primaryDimensionKey": "dt.entity.kubernetes_cluster"
+}

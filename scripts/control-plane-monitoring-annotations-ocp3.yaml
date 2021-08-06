@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metrics.dynatrace.com/filter: |
+      {
+      "mode": "include",
+      "names": [
+          "node_memory_MemAvailable_bytes",
+          "node_memory_MemTotal_bytes",
+          "node_filesystem_free_bytes",
+          "node_filesystem_size_bytes",
+          "node_cpu_seconds_total",
+          "node_network_receive_bytes_total",
+          "node_network_transmit_bytes_total"
+          ]
+      }    
+    metrics.dynatrace.com/http.auth: builtin:default
+    metrics.dynatrace.com/path: /metrics
+    metrics.dynatrace.com/port: "9100"
+    metrics.dynatrace.com/scrape: "true"
+    metrics.dynatrace.com/secure: "true"
+  name: dynatrace-monitoring-node-exporter
+  namespace: openshift-monitoring
+spec:
+  clusterIP: None
+  ports:
+  - name: dynatrace-monitoring-node-exporter-port
+    port: 9100
+    protocol: TCP
+    targetPort: 9100
+  selector:
+    app: node-exporter
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metrics.dynatrace.com/filter: |
+      {
+      "mode": "include",
+      "names": [
+          "kube_pod_status_ready",
+          "kube_node_role",
+          "kube_node_labels"
+          ]
+      }
+    metrics.dynatrace.com/http.auth: builtin:default
+    metrics.dynatrace.com/path: /metrics
+    metrics.dynatrace.com/port: "8443"
+    metrics.dynatrace.com/scrape: "true"
+    metrics.dynatrace.com/secure: "true"
+  name: dynatrace-monitoring-kube-state-metrics
+  namespace: openshift-monitoring
+spec:
+  clusterIP: None
+  ports:
+  - name: dynatrace-monitoring-kube-state-port
+    port: 8443
+    protocol: TCP
+    targetPort: 8443
+  selector:
+    app: kube-state-metrics
+  type: ClusterIP
