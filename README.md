@@ -1,4 +1,4 @@
-# OpenShift control plane
+# OpenShift Control Plane
 This extension provides you with deep insights into your self-managed [OpenShift](https://www.openshift.com/) control plane. It provides an out-of-the-box [dashboard](#screenshots) and pre-configured [alerts](#alerts). To give you a brief impression of what you get with this extension, have a look at the [screenshots](#screenshots) below. Of course, you can also build your own [dashboards](https://www.dynatrace.com/support/help/shortlink/custom-dashboards) and [metric events for alerting](https://www.dynatrace.com/support/help/shortlink/metric-events-for-alerting) based on the metrics coming with this extension.
 
 ## <a name="screenshots"></a>Screenshots
