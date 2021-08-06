@@ -1,5 +1,5 @@
 # OpenShift control plane
-This extension provides you with deep insights into your self-managed [OpenShift](https://www.openshift.com/) control plane. It provides an out-of-the-box [dashboard](#screenshots) and pre-configured [alerts](#screenshots). To give you a brief impression of what you get with this extension, have a look at the [screenshots](#screenshots) below. Of course, you can also build your own [dashboards](https://www.dynatrace.com/support/help/shortlink/custom-dashboards) and [metric events for alerting](https://www.dynatrace.com/support/help/shortlink/metric-events-for-alerting) based on the metrics coming with this extension.
+This extension provides you with deep insights into your self-managed [OpenShift](https://www.openshift.com/) control plane. It provides an out-of-the-box [dashboard](#screenshots) and pre-configured [alerts](#alerts). To give you a brief impression of what you get with this extension, have a look at the [screenshots](#screenshots) below. Of course, you can also build your own [dashboards](https://www.dynatrace.com/support/help/shortlink/custom-dashboards) and [metric events for alerting](https://www.dynatrace.com/support/help/shortlink/metric-events-for-alerting) based on the metrics coming with this extension.
 
 ## <a name="screenshots"></a>Screenshots
 Dashboard             |  
@@ -46,7 +46,7 @@ To get the out-of-the-box dashboard and pre-configured alerts included in this e
 ### 4. Activate metric events for alerting
 Additionally, the extension comes with multiple pre-configured metric events for alerting. To activate them:
 1. From the Dynatrace navigation menu, select **Settings** > **Anomaly detection** > **Custom events for alerting**.
-2. Find the following events
+2. <a name="alerts"></a>Find the following events
 
    <img src="docs/screenshots/alert_list.png" alt="list of alerts" width="75%" style="margin:auto; display:block;"/></br>
 
