@@ -1,2 +1,0 @@
-Get deep insights into your OpenShift control plane using metrics exposed by various control plane components.
-

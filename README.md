@@ -8,9 +8,9 @@ Dashboard             |
 
 ## <a name="permissions"></a> Prerequisites and supported versions
 
-* Dynatrace version 1.219+
-* ActiveGate version 1.219+ running within the Kubernetes cluster. To have an ActiveGate in your Kubernetes cluster, deploy Dynatrace using [Dynatrace Operator](https://www.dynatrace.com/support/help/shortlink/full-stack-dto-k8) (recommended) or deploy an [ActiveGate as a StatefulSet](https://www.dynatrace.com/support/help/shortlink/connect-kubernetes-clusters).
-* OpenShift 4 and OpenShift 3
+* Dynatrace version 1.220+
+* ActiveGate version 1.220+ running within the Kubernetes cluster. To have an ActiveGate in your Kubernetes cluster, deploy Dynatrace using [Dynatrace Operator](https://www.dynatrace.com/support/help/shortlink/full-stack-dto-k8) (recommended) or deploy an [ActiveGate as a StatefulSet](https://www.dynatrace.com/support/help/shortlink/connect-kubernetes-clusters).
+* OpenShift 4 and OpenShift 3 (self-managed)
 
 
 ## Install extension
@@ -25,11 +25,11 @@ To ingest metrics exposed by the OpenShift control plane, the related services n
 
 #### OpenShift 4
 ```
-kubectl apply --namespace=openshift-monitoring -f 
+kubectl apply -f 
 ```
 #### OpenShift 3
 ```
-kubectl apply --namespace=openshift-monitoring -f 
+kubectl apply -f 
 ```
 
 #### Verification and troubleshooting
@@ -74,11 +74,11 @@ As metric ingest is subject to [DDU consumption](https://www.dynatrace.com/suppo
 
 #### OpenShift 4
 ```
-kubectl delete --namespace=openshift-monitoring -f 
+kubectl delete -f 
 ```
 #### OpenShift 3
 ```
-kubectl delete --namespace=openshift-monitoring -f 
+kubectl delete -f 
 ```
 ### 2. Deactivate the extension
 To remove the out-of-the-box dashboard and alerts, deactivate the extension via the **Dynatrace Hub**.

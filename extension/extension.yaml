@@ -9,7 +9,8 @@ dashboards:
 
 alerts:
   - path: "alerts/readyz_cluster_readiness.json"
-  - path: "alerts/kubernetes_master_nodes.json"
+  - path: "alerts/kubernetes_master_nodes_ocp3.json"
+  - path: "alerts/kubernetes_master_nodes_ocp4.json"
   - path: "alerts/control_plane_apiserver_number_of_pods.json"
   - path: "alerts/control_plane_controller_manager_number_of_pods.json"
   - path: "alerts/control_plane_dns_number_of_pods.json"

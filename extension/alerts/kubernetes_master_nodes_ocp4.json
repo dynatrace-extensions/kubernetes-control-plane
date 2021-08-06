@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "configurationVersions": [
+      5
+    ],
+    "clusterVersion": "1.219.0.20210514-181251"
+  },
+  "id": "7fddf3b8-f2ac-2a49-3f94-f3b5b46da1ca",
+  "metricId": "kube_node_role",
+  "metricSelector": "\"kube_node_role\":filter(eq(role,master)):splitBy(\"dt.entity.kubernetes_cluster\"):sum:rate(1m)",
+  "name": "OpenShift control plane: low number of master nodes (OpenShift 4 specific)",
+  "description": "The {metricname} value of {severity} was {alert_condition} your custom threshold of {threshold}.",
+  "severity": "CUSTOM_ALERT",
+  "enabled": true,
+  "disabledReason": "NONE",
+  "warningReason": "NONE",
+  "monitoringStrategy": {
+    "type": "STATIC_THRESHOLD",
+    "samples": 15,
+    "violatingSamples": 2,
+    "dealertingSamples": 15,
+    "alertCondition": "BELOW",
+    "alertingOnMissingData": false,
+    "threshold": 3.0,
+    "unit": "UNSPECIFIED"
+  },
+  "alertCondition": "BELOW",
+  "samples": 15,
+  "violatingSamples": 2,
+  "dealertingSamples": 15,
+  "threshold": 3.0,
+  "unit": "UNSPECIFIED",
+  "eventType": "CUSTOM_ALERT",
+  "primaryDimensionKey": "dt.entity.kubernetes_cluster"
+}

@@ -140,7 +140,7 @@
           "spaceAggregation": "AVG",
           "timeAggregation": "DEFAULT",
           "splitBy": [],
-          "metricSelector": "\"kube_node_labels\":filter(and(eq(\"label_node_role_kubernetes_io_infra\",true))):splitBy(\"dt.entity.kubernetes_cluster\"):avg:auto:sort(value(avg,descending))",
+          "metricSelector": "\"kube_node_labels\":filter(and(eq(label_node_role_kubernetes_io_infra,true))):splitBy(\"dt.entity.kubernetes_cluster\"):count:rate:sort(value(avg,descending))",
           "enabled": true
         }
       ],
@@ -681,7 +681,7 @@
           "spaceAggregation": "AVG",
           "timeAggregation": "DEFAULT",
           "splitBy": [],
-          "metricSelector": "\"kube_node_labels\":filter(and(eq(label_node_role_kubernetes_io_master,true))):splitBy(\"dt.entity.kubernetes_cluster\"):avg:auto:sort(value(avg,descending))",
+          "metricSelector": "\"kube_node_labels\":filter(and(eq(label_node_role_kubernetes_io_master,true))):splitBy(\"dt.entity.kubernetes_cluster\"):count:rate:sort(value(avg,descending))",
           "enabled": true
         }
       ],
