@@ -20,6 +20,7 @@ metadata:
     metrics.dynatrace.com/port: "9100"
     metrics.dynatrace.com/scrape: "true"
     metrics.dynatrace.com/secure: "true"
+    metrics.dynatrace.com/insecure_skip_verify: "true"
   name: dynatrace-monitoring-node-exporter
   namespace: openshift-monitoring
 spec:
@@ -51,6 +52,7 @@ metadata:
     metrics.dynatrace.com/port: "8443"
     metrics.dynatrace.com/scrape: "true"
     metrics.dynatrace.com/secure: "true"
+    metrics.dynatrace.com/insecure_skip_verify: "true"
   name: dynatrace-monitoring-kube-state-metrics
   namespace: openshift-monitoring
 spec:
