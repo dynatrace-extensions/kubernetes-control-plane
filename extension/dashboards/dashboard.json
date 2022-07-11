@@ -16,6 +16,11 @@
       "ControlPlane",
       "Kubernetes"
     ],
+    "dynamicFilters": {
+      "filters": [
+        "KUBERNETES_CLUSTER"
+      ]
+    },    
     "preset": true
   },
   "tiles": [

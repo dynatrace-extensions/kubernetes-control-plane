@@ -1,6 +1,6 @@
 name: com.dynatrace.extension.<%=extensionName%>
 version: <%=version%>
-minDynatraceVersion: "1.219"
+minDynatraceVersion: "1.245"
 author:
   name: Dynatrace
 
