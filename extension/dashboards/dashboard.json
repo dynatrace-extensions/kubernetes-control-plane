@@ -49,7 +49,7 @@
       "tileFilter": {}
     },
     {
-      "name": "Cluster status",
+      "name": "",
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
@@ -63,7 +63,7 @@
       "queries": [
         {
           "id": "A",
-          "metric": "builtin:cloud.kubernetes.cluster.readyz",
+          "metric": "builtin:kubernetes.cluster.readyz",
           "spaceAggregation": "AVG",
           "timeAggregation": "DEFAULT",
           "splitBy": [
@@ -92,31 +92,17 @@
         }
       ],
       "visualConfig": {
-        "type": "TABLE",
+        "type": "HONEYCOMB",
         "global": {
-          "theme": "DEFAULT",
-          "threshold": {
-            "axisTarget": "LEFT",
-            "rules": [
-              {
-                "color": "#7dc540"
-              },
-              {
-                "color": "#f5d30f"
-              },
-              {
-                "color": "#dc172a"
-              }
-            ]
-          },
-          "seriesType": "LINE"
+          "hideLegend": false
         },
         "rules": [
           {
             "matcher": "A:",
             "properties": {
-              "seriesType": "LINE"
-            }
+              "color": "DEFAULT"
+            },
+            "seriesOverrides": []
           }
         ],
         "axes": {
@@ -124,6 +110,35 @@
             "visible": true
           },
           "yAxes": []
+        },
+        "heatmapSettings": {
+          "yAxis": "VALUE"
+        },
+        "thresholds": [
+          {
+            "axisTarget": "LEFT",
+            "rules": [
+              {
+                "value": 0.99,
+                "color": "#7dc540"
+              },
+              {
+                "value": 0,
+                "color": "#dc172a"
+              }
+            ],
+            "queryId": "A",
+            "visible": true
+          }
+        ],
+        "tableSettings": {},
+        "graphChartSettings": {
+          "connectNulls": false
+        },
+        "honeycombSettings": {
+          "showHive": true,
+          "showLegend": true,
+          "showLabels": false
         }
       }
     },
@@ -819,3 +834,4 @@
     }
   ]
 }
+

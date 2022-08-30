@@ -6,7 +6,7 @@
     "clusterVersion": "1.218.7.20210507-162235"
   },
   "id": "a79b62e4-a052-4049-9e6e-cb983c89c1b8",
-  "metricId": "builtin:cloud.kubernetes.cluster.readyz",
+  "metricId": "builtin:kubernetes.cluster.readyz",
   "name": "OpenShift control plane: cluster not ready",
   "description": "The readyz API health endpoint reported that the cluster's API server is not ready.",
   "aggregationType": "AVG",
