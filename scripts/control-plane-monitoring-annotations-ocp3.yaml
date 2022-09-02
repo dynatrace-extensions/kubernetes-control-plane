@@ -14,7 +14,7 @@ metadata:
           "node_network_receive_bytes_total",
           "node_network_transmit_bytes_total"
           ]
-      }    
+      }
     metrics.dynatrace.com/http.auth: builtin:default
     metrics.dynatrace.com/path: /metrics
     metrics.dynatrace.com/port: "9100"

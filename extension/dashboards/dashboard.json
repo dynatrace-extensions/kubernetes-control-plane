@@ -16,11 +16,11 @@
       "ControlPlane",
       "Kubernetes"
     ],
-    "dynamicFilters": {
-      "filters": [
-        "KUBERNETES_CLUSTER"
-      ]
-    },    
+	"dynamicFilters": {
+	  "filters": [
+		"KUBERNETES_CLUSTER"
+	  ]
+	},
     "preset": true
   },
   "tiles": [
@@ -171,7 +171,7 @@
       "bounds": {
         "top": 418,
         "left": 0,
-        "width": 304,
+        "width": 342,
         "height": 342
       },
       "tileFilter": {},
@@ -207,8 +207,8 @@
       "configured": true,
       "bounds": {
         "top": 418,
-        "left": 304,
-        "width": 304,
+        "left": 342,
+        "width": 342,
         "height": 342
       },
       "tileFilter": {},
@@ -243,9 +243,9 @@
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 418,
-        "left": 608,
-        "width": 304,
+        "top": 760,
+        "left": 760,
+        "width": 342,
         "height": 342
       },
       "tileFilter": {},
@@ -281,8 +281,8 @@
       "configured": true,
       "bounds": {
         "top": 418,
-        "left": 912,
-        "width": 304,
+        "left": 760,
+        "width": 342,
         "height": 342
       },
       "tileFilter": {},
@@ -318,8 +318,8 @@
       "configured": true,
       "bounds": {
         "top": 418,
-        "left": 1216,
-        "width": 304,
+        "left": 1178,
+        "width": 342,
         "height": 342
       },
       "tileFilter": {},
@@ -354,7 +354,7 @@
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 836,
+        "top": 1178,
         "left": 0,
         "width": 304,
         "height": 342
@@ -394,7 +394,7 @@
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 836,
+        "top": 1178,
         "left": 304,
         "width": 304,
         "height": 342
@@ -467,7 +467,7 @@
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 836,
+        "top": 1178,
         "left": 608,
         "width": 304,
         "height": 342
@@ -525,7 +525,7 @@
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 836,
+        "top": 1178,
         "left": 912,
         "width": 304,
         "height": 342
@@ -583,7 +583,7 @@
       "tileType": "DATA_EXPLORER",
       "configured": true,
       "bounds": {
-        "top": 836,
+        "top": 1178,
         "left": 1216,
         "width": 304,
         "height": 342
@@ -641,21 +641,9 @@
       "tileType": "HEADER",
       "configured": true,
       "bounds": {
-        "top": 798,
+        "top": 1140,
         "left": 0,
         "width": 1520,
-        "height": 38
-      },
-      "tileFilter": {}
-    },
-    {
-      "name": "Number of ready pods per component",
-      "tileType": "HEADER",
-      "configured": true,
-      "bounds": {
-        "top": 380,
-        "left": 0,
-        "width": 608,
         "height": 38
       },
       "tileFilter": {}
@@ -725,8 +713,8 @@
       "configured": true,
       "bounds": {
         "top": 380,
-        "left": 608,
-        "width": 608,
+        "left": 760,
+        "width": 342,
         "height": 38
       },
       "tileFilter": {},
@@ -738,8 +726,8 @@
       "configured": true,
       "bounds": {
         "top": 380,
-        "left": 1216,
-        "width": 304,
+        "left": 1178,
+        "width": 342,
         "height": 38
       },
       "tileFilter": {},
@@ -757,6 +745,77 @@
       },
       "tileFilter": {},
       "markdown": "#### [OpenShift 3 specific node type](https://docs.openshift.com/container-platform/3.11/admin_guide/manage_nodes.html#infrastructure-nodes)"
+    },
+    {
+      "name": "Number of ready pods per component",
+      "tileType": "HEADER",
+      "configured": true,
+      "bounds": {
+        "top": 380,
+        "left": 0,
+        "width": 684,
+        "height": 38
+      },
+      "tileFilter": {}
+    },
+    {
+      "name": "Number of failed pods",
+      "tileType": "DATA_EXPLORER",
+      "configured": true,
+      "bounds": {
+        "top": 760,
+        "left": 0,
+        "width": 684,
+        "height": 342
+      },
+      "tileFilter": {},
+      "customName": "Data explorer results",
+      "queries": [
+        {
+          "id": "A",
+          "spaceAggregation": "AVG",
+          "timeAggregation": "DEFAULT",
+          "metricSelector": "kube_pod_status_ready:filter(and(or(and(eq(namespace,kube-system),prefix(pod,master-etcd-)),and(eq(namespace,openshift-etcd),prefix(pod,etcd-),not(prefix(pod,etcd-quorum))),and(eq(namespace,kube-system),prefix(pod,master-api-)),and(eq(namespace,openshift-kube-apiserver),prefix(pod,kube-apiserver-)),and(eq(namespace,openshift-kube-scheduler),prefix(pod,openshift-kube-scheduler-)),and(eq(namespace,openshift-kube-controller-manager),prefix(pod,kube-controller-manager-)),and(eq(namespace,kube-system),prefix(pod,master-controllers-))),eq(condition,false))):splitBy(\"dt.entity.kubernetes_cluster\",namespace,pod):sum:filter(series(sum,gt,0)):sort(value(sum,descending))",
+          "enabled": true
+        }
+      ],
+      "visualConfig": {
+        "type": "TABLE",
+        "global": {
+          "theme": "DEFAULT",
+          "threshold": {
+            "axisTarget": "LEFT",
+            "columnId": "kube_pod_status_ready:filter",
+            "rules": [
+              {
+                "color": "#7dc540"
+              },
+              {
+                "color": "#f5d30f"
+              },
+              {
+                "color": "#dc172a"
+              }
+            ]
+          },
+          "seriesType": "LINE"
+        },
+        "rules": [
+          {
+            "matcher": "A:",
+            "properties": {
+              "seriesType": "LINE",
+              "alias": "Count"
+            }
+          }
+        ],
+        "axes": {
+          "xAxis": {
+            "visible": true
+          },
+          "yAxes": []
+        }
+      }
     }
   ]
 }

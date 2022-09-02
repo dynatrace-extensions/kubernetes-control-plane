@@ -47,7 +47,7 @@ metadata:
           "kube_node_role",
           "kube_node_labels"
           ]
-      }    
+      }
     metrics.dynatrace.com/http.auth: builtin:default
     metrics.dynatrace.com/path: /metrics
     metrics.dynatrace.com/port: "8443"
