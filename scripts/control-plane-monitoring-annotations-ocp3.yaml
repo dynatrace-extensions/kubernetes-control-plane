@@ -1,4 +1,40 @@
 apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dynatrace-monitoring-scraper
+  namespace: openshift-monitoring
+---
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: dynatrace-monitoring-token
+  namespace: openshift-monitoring
+  annotations:
+    kubernetes.io/service-account.name: dynatrace-monitoring-scraper
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dynatrace-monitoring-metrics-reader
+rules:
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dynatrace-monitoring-metrics-reader
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: dynatrace-monitoring-metrics-reader
+subjects:
+- kind: ServiceAccount
+  name: dynatrace-monitoring-scraper
+  namespace: openshift-monitoring
+---
+apiVersion: v1
 kind: Service
 metadata:
   annotations:
@@ -15,7 +51,7 @@ metadata:
           "node_network_transmit_bytes_total"
           ]
       }
-    metrics.dynatrace.com/http.auth: builtin:default
+    metrics.dynatrace.com/http.auth: 'secret:openshift-monitoring:dynatrace-monitoring-token:token'
     metrics.dynatrace.com/path: /metrics
     metrics.dynatrace.com/port: "9100"
     metrics.dynatrace.com/scrape: "true"
@@ -47,7 +83,7 @@ metadata:
           "kube_node_labels"
           ]
       }
-    metrics.dynatrace.com/http.auth: builtin:default
+    metrics.dynatrace.com/http.auth: 'secret:openshift-monitoring:dynatrace-monitoring-token:token'
     metrics.dynatrace.com/path: /metrics
     metrics.dynatrace.com/port: "8443"
     metrics.dynatrace.com/scrape: "true"

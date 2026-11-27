@@ -11,6 +11,7 @@ This extension provides you with deep insights into your self-managed [OpenShift
 * Dynatrace version 1.222+
 * ActiveGate version 1.222+ running within the Kubernetes cluster. To have an ActiveGate in your Kubernetes cluster, deploy Dynatrace using [Dynatrace Operator](https://www.dynatrace.com/support/help/shortlink/full-stack-dto-k8) (recommended) or deploy an [ActiveGate as a StatefulSet](https://www.dynatrace.com/support/help/shortlink/connect-kubernetes-clusters).
 * OpenShift 4 and OpenShift 3 (self-managed)
+* ActiveGate version 1.353+ blocks the `builtin:default` option of the `metrics.dynatrace.com/http.auth` annotation. The annotation files therefore use a Bearer token stored in a secret in the namespace of the annotated service (`openshift-monitoring`). Grant the ActiveGate service account (typically `dynatrace-activegate`) `secrets/get` permission in that namespace.
 
 
 ## Install extension
